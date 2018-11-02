@@ -1,5 +1,8 @@
 server {
-    listen 80;
+    listen 80 default_server;
+    server_name {{ item.value.server_name }}
+    access_log off;
+    error_log off;
     return 301 https://$host$request_uri;
 }
 
@@ -7,7 +10,7 @@ server {
     server_name {{ item.value.server_name }};
 
     {% if item.value.tls is defined %}
-    listen 443 default_server ssl;    
+    listen 443 ssl;    
 
     ssl_certificate       {{item.value.tls.ssl_certificate}};
     ssl_certificate_key   {{item.value.tls.ssl_certificate_key}};
